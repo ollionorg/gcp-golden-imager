@@ -1,0 +1,8 @@
+{
+      "project": "<project where you want to host your hardened images>",
+      "zone" : "<gcp-zone>",
+      "family": "cis-ubuntu-2004-image",
+      "region": "<gcp-region>",
+      "owner"  : "domain:<your gcp org domain>" 
+}
+

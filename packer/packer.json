@@ -1,0 +1,49 @@
+{
+  "variables": {
+    "project": "",
+    "family" : "",
+    "region": "",
+    "timestamp" : "{{timestamp}}",
+    "zone": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "{{user `project`}}",
+      "source_image": "ubuntu-2004-focal-v20211118",
+      "ssh_username": "packer",
+      "zone": "{{user `zone`}}",
+      "image_description": "custom cis hardened GCE machine Ubunutu 20.04 image",
+      "image_family": "cis-ubuntu-2004-image",
+      "omit_external_ip": true,
+      "use_internal_ip": true,
+      "use_iap": true,
+      "image_name": "cis-ubuntu-2004-image-{{user `timestamp`}}"
+      
+    }
+  ], 
+  "provisioners":[
+    
+    {
+      "type": "ansible",
+      "user": "packer",
+      "command": "/usr/local/bin/ansible-playbook",
+      "ansible_env_vars": [ "ANSIBLE_STDOUT_CALLBACK=json", "ANSIBLE_SHOW_CUSTOM_STATS=true" , "ANSIBLE_LOG_PATH=cis-{{user `timestamp`}}.json" ],
+      "playbook_file": "./ansible/playbook_with_custom_firewall_changes.yml"
+    }
+  ],
+
+  "post-processors": [
+    [
+      {
+        "type": "shell-local",
+        "inline" : ["gcloud projects add-iam-policy-binding {{user `project`}} --member='{{user `owner`}}' --role='roles/compute.imageUser'"]
+      },
+      {
+        "type": "shell-local",
+        "inline" : ["gsutil cp cis-{{user `timestamp`}}.json gs://{{user `project`}}_cloudbuild"]
+      }
+    ]
+  ]
+
+}

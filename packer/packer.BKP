@@ -1,0 +1,34 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "gcf-init",
+      "source_image": "ubuntu-2004-focal-v20211118",
+      "ssh_username": "packer",
+      "zone": "us-central1-a",
+      "image_description": "custom machine image",
+      "image_name": "cis-ubuntu-2004-image-gitaction-v7"
+      
+    }
+  ], 
+  "provisioners":[
+    {
+      "type": "shell-local",
+      "inline": ["ansible-galaxy install darkwizard242.cis_ubuntu_2004 -p ./ansible/roles"]
+    },	  
+    {
+      "type": "ansible",
+      "playbook_file": "./ansible/playbook_with_custom_firewall_changes.yml"
+    }
+  ],
+
+  "post-processors": [
+    [
+      {
+        "type": "shell-local",
+        "inline" : ["gcloud projects add-iam-policy-binding gcf-init --member='domain:godmode.in' --role='roles/compute.imageUser'"]
+      }
+    ]
+  ]
+
+}

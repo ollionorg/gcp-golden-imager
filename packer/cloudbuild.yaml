@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/$PROJECT_ID/packer'
+  args:
+  - build
+  - -var-file=variables.json
+  - packer.json
+logsBucket: 'gs://${PROJECT_ID}_cloudbuild'
+options:
+  logging: GCS_ONLY
+timeout: '7200s'

@@ -1,0 +1,12 @@
+org_id              = "542139653104"
+billing_account     = "01DB30-E8C40C-9A9516"
+name                = "golden-image-monitoring"
+runtime             = "python38"
+region              = "asia-southeast1"
+available_memory_mb = 2048
+trigger_http        = true
+entry_point         = "main"
+cr_description      = "CustomRole for golden-image-monitoring"
+cf_description      = "golden-image test function"
+timeout             = "180"
+image_project_id    = "gcf-init"

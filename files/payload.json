@@ -1,0 +1,30 @@
+[
+
+		{
+			"type": "header",
+			"text": {
+				"type": "plain_text",
+				"text": "Python Malfunction Alert"
+			}
+		},
+		{
+			"type": "section",
+			"fields": [
+			{
+				"type": "mrkdwn",
+				"text": "Log Level:\n *INFO*"
+			},
+			{
+				"type": "mrkdwn",
+				"text": "Service:\n *CloudBuild*"
+			}
+		  ]
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Message:\n "
+			}
+		}
+]
