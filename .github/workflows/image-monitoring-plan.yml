@@ -1,0 +1,46 @@
+name: 'Image monitoring function - validate plan'
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - terraform/**
+      - files/**
+
+env:
+  PROJECT_ID: <project-id to host>
+  SECRET_ID: <secret-id>
+  WEBHOOK_URL: ${{ secrets.RUN_SLACK_WEBHOOK }}
+
+jobs:
+  terraform:
+    name: "image-monitor - plan"
+    runs-on: <github runner label>
+    defaults:
+      run:
+        working-directory: terraform/
+    permissions:
+      pull-requests: 'write'
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.5
+        with:
+          fetch-depth: 0
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          version: '338.0.0'
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
+        id: extract_branch
+
+      - name: Trigger build 
+        run: |
+          cd ${{ github.workspace}}/build
+          gcloud builds submit --config=github-ssh-cloudbuild-plan.yml \
+            --project=${{ env.PROJECT_ID }} \
+            --substitutions=_SECRET_ID=${{ env.SECRET_ID }},_GIT_HEAD_BRANCH=${{ steps.extract_branch.outputs.branch }},_GIT_LZ_REPO="${{ github.repository }}.git",_GIT_WORK_DIR="gcp-lz-golden-imager/terraform"
