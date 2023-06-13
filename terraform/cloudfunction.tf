@@ -12,10 +12,10 @@ resource "google_cloudfunctions_function" "function" {
   entry_point           = var.entry_point
   timeout               = var.timeout
   environment_variables = {
-    IMAGE_PROJECT_ID = "${var.image_project_id}"
-    FUNCTION_REGION  = "${var.region}"
-    FUNCTION_PROJECT = "${google_project.golden_image.project_id}"
-    FUNCTION_NAME    = "${var.name}"
-    WEBHOOK_URL      = "${var.webhook_name}"
+    IMAGE_PROJECT_ID = var.image_project_id
+    FUNCTION_REGION  = var.region
+    FUNCTION_PROJECT = google_project.golden_image.project_id
+    FUNCTION_NAME    = var.name
+    WEBHOOK_URL      = var.webhook_name
   }
 }
