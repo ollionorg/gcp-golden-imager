@@ -1,5 +1,5 @@
 org_id              = "542139653104"
-billing_account     = "01DB30-E8C40C-9A9516"
+billing_account     = "017769-C68281-DA1844"
 name                = "golden-image-monitoring"
 runtime             = "python38"
 region              = "asia-southeast1"
