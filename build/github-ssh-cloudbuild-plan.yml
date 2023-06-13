@@ -51,8 +51,8 @@ availableSecrets:
   - versionName: projects/${PROJECT_ID}/secrets/webhook_url/versions/latest
     env: 'WEBHOOK_NOTIFICATION'
 substitutions:
-  _SECRET_ID: git-imager-ssh-pvt
-  _GIT_LZ_REPO: "cldcvr/gcp-lz-golden-imager.git"
+  _SECRET_ID: <secret id created in secret manager>
+  _GIT_LZ_REPO: "cldcvr/gcp-golden-imager.git"
   _GIT_WORK_DIR: gcp-lz
   _GIT_HEAD_BRANCH: main  
 options:
